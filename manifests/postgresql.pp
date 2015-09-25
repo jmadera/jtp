@@ -1,26 +1,24 @@
 class jtp::postgresql {
-  class { 'postgresql': }
-
   class { 'postgresql::server':
     listen => ['*', ],
     port   => 5432,
     acl    => ['host all all 0.0.0.0/0 md5', ],  
   }
 
-  pg_database { ['sigenu_db']:
+  pg_database { [$database]:
     ensure   => present,
     encoding => 'UTF8',
     require  => Class['postgresql::server']
   }
 
-  pg_user { 'jmadera':
+  pg_user { $user:
     ensure    => present,
     require   => Class['postgresql::server'],
     superuser => true,
-    password  => 'qwerty12'
+    password  => $password
   }
 
-  pg_user { 'postgre':
+  pg_user { $pguser:
     ensure     => present,
     superuser  => true,
     require    => Class['postgresql::server']
