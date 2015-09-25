@@ -1,0 +1,5 @@
+class jtp::postgresql {
+  #include postgresql
+
+  class { 'postgresql::server':}
+}
